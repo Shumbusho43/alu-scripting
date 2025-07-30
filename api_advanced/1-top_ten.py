@@ -10,14 +10,9 @@ def top_ten(subreddit):
     try:
         RESPONSE = requests.get(URL, headers=HEADERS, allow_redirects=False)
         if RESPONSE.status_code == 200:
-            data = RESPONSE.json()
-            if (data and 'data' in data and data['data'] and
-                    'children' in data['data']):
-                HOT_POSTS = data['data']['children']
-                for post in HOT_POSTS:
-                    if (post and 'data' in post and
-                            'title' in post['data']):
-                        print(post['data']['title'])
+            HOT_POSTS = RESPONSE.json().get("data").get("children")
+            if HOT_POSTS:
+                [print(post.get('data').get('title')) for post in HOT_POSTS]
             else:
                 print(None)
         else:
